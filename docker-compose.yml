@@ -1,0 +1,24 @@
+services:
+  claude-sandbox:
+    build: .
+    container_name: claude-sandbox
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    volumes:
+      - ./workspace:/workspace
+    networks:
+      - sandbox-net
+    deploy:
+      resources:
+        limits:
+          memory: 4g
+          cpus: "2"
+
+networks:
+  sandbox-net:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.name: claude-br0
