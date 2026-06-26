@@ -65,6 +65,6 @@ destroy:
 ssh:
 	@if [ -z "$(SERVER_USER)" ]; then echo "Error: SANDBOX_USER is not set. Add it to your shell profile."; exit 1; fi
 	@if [ -z "$(SERVER_IP)" ]; then echo "Error: SANDBOX_IP is not set. Add it to your shell profile."; exit 1; fi
-	ssh -t $(SERVER_USER)@$(SERVER_IP) "docker exec -it $(CONTAINER_NAME) tmux attach -t main || docker exec -it $(CONTAINER_NAME) tmux new-session -s main"
+	ssh -t $(SERVER_USER)@$(SERVER_IP) "docker exec -it $(CONTAINER_NAME) tmux attach -t main 2>/dev/null || docker exec -it $(CONTAINER_NAME) tmux new-session -s main"
 
 .DEFAULT_GOAL := help
