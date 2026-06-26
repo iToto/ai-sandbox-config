@@ -21,7 +21,7 @@ RUN npm install -g @anthropic-ai/claude-code
 WORKDIR /workspace
 
 # Copy in a default tmux config
-COPY .tmux.conf /root/.tmux.conf
+COPY tmux.conf /root/.tmux.conf
 
 # Default command: start tmux session named "main"
 CMD ["tmux", "new-session", "-s", "main"]
