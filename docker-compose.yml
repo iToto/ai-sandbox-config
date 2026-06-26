@@ -5,10 +5,9 @@ services:
     restart: unless-stopped
     stdin_open: true
     tty: true
-    environment:
-      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
     volumes:
       - ./workspace:/workspace
+      - ./claude-auth:/root/.claude
     networks:
       - sandbox-net
     deploy:

@@ -20,7 +20,7 @@ RUN npm install -g @anthropic-ai/claude-code
 # Set up workspace
 WORKDIR /workspace
 
-# Copy in a default tmux config (optional but nice)
+# Copy in a default tmux config
 COPY .tmux.conf /root/.tmux.conf
 
 # Default command: start tmux session named "main"
