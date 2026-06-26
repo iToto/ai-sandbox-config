@@ -14,6 +14,9 @@ RUN apt-get update && apt-get install -y \
     npm \
     zsh \
     fontconfig \
+    iputils-ping \
+    iproute2 \
+    nmap \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Oh My Zsh
@@ -41,7 +44,7 @@ COPY .p10k.zsh* /root/.p10k.zsh
 RUN echo '[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh' >> /root/.zshrc
 
 # Install Claude Code globally
-RUN npm install -g @anthropic-ai/claude-code
+RUN npm install -g @anthropic-ai/claude-code@latest
 
 # Set zsh as default shell
 ENV SHELL=/bin/zsh

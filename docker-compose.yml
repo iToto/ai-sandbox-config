@@ -5,6 +5,9 @@ services:
     restart: unless-stopped
     stdin_open: true
     tty: true
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
     volumes:
       - ./workspace:/workspace
       - ./claude-auth:/root/.claude
