@@ -1,0 +1,26 @@
+#cloud-config
+autoinstall:
+  version: 1
+  locale: en_US.UTF-8
+  keyboard:
+    layout: us
+  identity:
+    hostname: claude-sandbox
+    username: sandbox
+    # Password is "sandbox" (sha512crypt) - only used during build, SSH key login is added below.
+    password: "$6$rounds=4096$NaCl12345678$Wn8h6OZE2qLDHRT8M0XS1g7H1m6m9F4qLZ1XQwzZk1F4Yc7hQH2xY1lJZ7gQwQwQwQwQwQwQwQwQwQwQwQwQ1"
+  ssh:
+    install-server: true
+    allow-pw: true
+  storage:
+    layout:
+      name: direct
+  packages:
+    - qemu-guest-agent
+    - openssh-server
+  late-commands:
+    - curtin in-target --target=/target -- systemctl enable qemu-guest-agent
+    - echo 'sandbox ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/90-sandbox
+  user-data:
+    disable_root: true
+  shutdown: poweroff
