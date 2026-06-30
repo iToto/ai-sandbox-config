@@ -66,7 +66,6 @@ clean:
 	@echo "Stopping and removing all containers, images, and volumes..."
 	-docker compose down --volumes --rmi all 2>/dev/null || true
 	@echo "Removing local workspace and auth directories..."
-	rm -rf workspace claude-auth
 	@echo "Uninstalling Docker..."
 	sudo apt-get purge -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
 	sudo apt-get autoremove -y
