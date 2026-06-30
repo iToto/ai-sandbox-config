@@ -2,7 +2,7 @@ CONTAINER_NAME=claude-sandbox
 SERVER_USER ?= $(shell echo $$SANDBOX_USER)
 SERVER_IP ?= $(shell echo $$SANDBOX_IP)
 
-.PHONY: install build restart destroy ssh help
+.PHONY: install build restart destroy clean ssh help
 
 help:
 	@echo ""
@@ -61,6 +61,25 @@ destroy:
 	@echo "Stopping and removing container..."
 	docker compose down
 	@echo "Container destroyed. Your workspace and Claude auth are preserved."
+
+clean:
+	@echo "Stopping and removing all containers, images, and volumes..."
+	-docker compose down --volumes --rmi all 2>/dev/null || true
+	@echo "Removing local workspace and auth directories..."
+	rm -rf workspace claude-auth
+	@echo "Uninstalling Docker..."
+	sudo apt-get purge -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
+	sudo apt-get autoremove -y
+	sudo rm -rf /var/lib/docker /var/lib/containerd /etc/docker
+	sudo rm -f /etc/apt/sources.list.d/docker.list /etc/apt/keyrings/docker.gpg
+	sudo groupdel docker 2>/dev/null || true
+	@echo "Removing iptables isolation rules..."
+	-sudo iptables -D DOCKER-USER -s 172.18.0.0/16 -d 192.168.1.0/24 -j DROP 2>/dev/null || true
+	-sudo iptables -D DOCKER-USER -s 172.18.0.0/16 -d 10.0.0.0/8 -j DROP 2>/dev/null || true
+	-sudo iptables -D DOCKER-USER -s 172.18.0.0/16 -d 172.16.0.0/12 -j DROP 2>/dev/null || true
+	-sudo iptables -D DOCKER-USER -s 172.18.0.0/16 -d 100.64.0.0/10 -j DROP 2>/dev/null || true
+	-sudo netfilter-persistent save 2>/dev/null || true
+	@echo "Done. System is clean."
 
 ssh:
 	@if [ -z "$(SERVER_USER)" ]; then echo "Error: SANDBOX_USER is not set. Add it to your shell profile."; exit 1; fi
