@@ -73,12 +73,12 @@ build {
   }
 
   provisioner "file" {
-    source      = "../tmux.conf"
+    source      = "../../tmux.conf"
     destination = "/tmp/sandbox-files/tmux.conf"
   }
 
   provisioner "file" {
-    source      = "../.p10k.zsh"
+    source      = "../../.p10k.zsh"
     destination = "/tmp/sandbox-files/.p10k.zsh"
   }
 
