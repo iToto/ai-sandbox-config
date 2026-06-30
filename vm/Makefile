@@ -27,9 +27,12 @@ install:
 	sudo apt-get install -y qemu-kvm libvirt-daemon-system libvirt-clients virtinst bridge-utils
 	sudo usermod -aG libvirt,kvm $$USER
 	@if ! command -v packer &> /dev/null; then \
-		curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg; \
-		echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $$(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list; \
-		sudo apt-get update && sudo apt-get install -y packer; \
+		PACKER_VERSION=1.11.2; \
+		curl -fsSL "https://releases.hashicorp.com/packer/$${PACKER_VERSION}/packer_$${PACKER_VERSION}_linux_amd64.zip" -o /tmp/packer.zip; \
+		sudo apt-get install -y unzip; \
+		sudo unzip -o /tmp/packer.zip -d /usr/local/bin/; \
+		rm /tmp/packer.zip; \
+		echo "Packer installed: $$(packer version)"; \
 	fi
 	@echo "Done. Log out and back in for the libvirt/kvm group changes to take effect."
 
