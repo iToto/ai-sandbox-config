@@ -23,16 +23,18 @@ help:
 
 install:
 	@echo "Installing KVM/libvirt and Packer..."
+	sudo rm -f /etc/apt/sources.list.d/hashicorp.list /usr/share/keyrings/hashicorp-archive-keyring.gpg
 	sudo apt-get update
-	sudo apt-get install -y qemu-kvm libvirt-daemon-system libvirt-clients virtinst bridge-utils
+	sudo apt-get install -y qemu-kvm libvirt-daemon-system libvirt-clients virtinst bridge-utils unzip
 	sudo usermod -aG libvirt,kvm $$USER
 	@if ! command -v packer &> /dev/null; then \
 		PACKER_VERSION=1.11.2; \
 		curl -fsSL "https://releases.hashicorp.com/packer/$${PACKER_VERSION}/packer_$${PACKER_VERSION}_linux_amd64.zip" -o /tmp/packer.zip; \
-		sudo apt-get install -y unzip; \
 		sudo unzip -o /tmp/packer.zip -d /usr/local/bin/; \
 		rm /tmp/packer.zip; \
 		echo "Packer installed: $$(packer version)"; \
+	else \
+		echo "Packer already installed: $$(packer version)"; \
 	fi
 	@echo "Done. Log out and back in for the libvirt/kvm group changes to take effect."
 
