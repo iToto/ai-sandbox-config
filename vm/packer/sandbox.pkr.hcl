@@ -14,7 +14,7 @@ variable "iso_url" {
 
 variable "iso_checksum" {
   type    = string
-  default = "file:https://releases.ubuntu.com/24.04/SHA256SUMS"
+  default = "sha256:d6dab0c3a657988501b4bd76f1297c053df710e06e0c3aece60dead24f270b4d"
 }
 
 variable "disk_size" {
