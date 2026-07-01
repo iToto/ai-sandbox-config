@@ -14,7 +14,7 @@ variable "iso_url" {
 
 variable "iso_checksum" {
   type    = string
-  default = "sha256:a6d9b9cbed35b56b73db57c7f0f7ca5d11cbdd13b8a2b94af9cd10eeef1a2e16"
+  default = "sha256:c3514bf0056180d09376462a7a1b4f213c1d6e8ea67fae5c25099c6fd3d8274b"
 }
 
 variable "disk_size" {
